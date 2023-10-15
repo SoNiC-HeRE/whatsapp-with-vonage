@@ -21,8 +21,8 @@ return function ($context) {
         ]);
     }
 
-    $token = isset($context->req->headers['authorization']) ? explode(" ", $context->req->headers['authorization'])[1] : "";
-    $context->log($token);
+    $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
+    $token = explode(" ", $authorizationHeader)[1] ?? "";
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
