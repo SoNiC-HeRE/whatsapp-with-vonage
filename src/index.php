@@ -26,8 +26,14 @@ return function ($context) {
     $jwtParts = explode(".", $token);
     $payload = base64_decode($jwtParts[1]);
     $decodedPayload = json_decode($payload, true);
+    
 
-    $context->log(hash("sha256",$context->req->bodyRaw));  
+    if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
+        $context->res->json([
+            'ok' => false,
+            'error' => "Payload Mismatch"
+        ]);
+    };
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
