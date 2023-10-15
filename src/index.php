@@ -20,7 +20,7 @@ return function ($context) {
         ]);
     }
 
-    $context->log(json_encode($context->req->body));
+    
     try {
     throw_if_missing($context->req->body, ['from','text']);
     } catch (\Exception $e) {
