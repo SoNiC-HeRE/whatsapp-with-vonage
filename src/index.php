@@ -19,10 +19,10 @@ return function ($context) {
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
     }
-    $token = explode(" ", ($context->req->headers["authorization"] ?? ""))[1] ?? '';
+    $token = explode(" ", ($context->req->headers["authorization"] ?? ""))[1];
 
     try {
-        $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'],('HS256'));
+        $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'],array('HS256'));
     } catch (\Exception $e) {
         $context->error('Caught exception: ',  $e);
     }
