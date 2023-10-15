@@ -19,8 +19,8 @@ return function ($context) {
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
     }
-    $token = explode(" ", ($context->req->headers["authorization"] ?? ""))[1] ?? '';
-    $context->log($token);
+
+    $context->log($context->req->headers);
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
