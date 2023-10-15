@@ -60,24 +60,11 @@ return function ($context) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_USERPWD, $_ENV['VONAGE_API_KEY'] . ':' . $_ENV['VONAGE_API_SECRET']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
     try {
         $response = curl_exec($ch);
-        if ($response === false) {
-            throw new Exception(curl_error($ch), curl_errno($ch));
-        }
-        if ($context->log) {
-            $context->log($response);
-        } else {
-            error_log($response); // Fallback to PHP error log
-        }
-    } catch (Exception $e) {
-        if ($context->error) {
-            $context->error('Caught exception: ' . $e->getMessage() . "\n");
-        } else {
-            error_log('Caught exception: ' . $e->getMessage() . "\n"); // Fallback to PHP error log
-        }
+        $context->log($response);
     }
-    
     
     curl_close($ch);
 };
