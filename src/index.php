@@ -69,4 +69,5 @@ return function ($context) {
     }
     
     curl_close($ch);
+    return $context->res->send('Invalid path');
 };
