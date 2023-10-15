@@ -20,17 +20,6 @@ return function ($context) {
         ]);
     }
 
-
-    /*$token = explode(" ", ($context->req->headers['Authorization'] ?? ''))[1];
-
-    try {
-        $decoded = JWT::decode($token, $VONAGE_API_SIGNATURE_SECRET,'HS256');
-    } catch (Exception $e) {
-        $context->error('JWT validation error: ' . $e->getMessage());
-    }*/
-
-    throw_if_missing($context->req->body, ['from','text']);
-
     $headers = [
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
