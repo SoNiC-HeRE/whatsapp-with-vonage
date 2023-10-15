@@ -20,7 +20,7 @@ return function ($context) {
         ]);
     }
 
-
+    $context->log(json_encode($context->req->body));  
     $context->log(json_encode($context->req->headers)); 
     try {
     throw_if_missing($context->req->body, ['from','text']);
@@ -37,7 +37,7 @@ return function ($context) {
         'from' => $_ENV['VONAGE_WHATSAPP_NUMBER'],
         'to' => $context->req->body['from'],
         'message_type' => 'text',
-        'text' => 'Hi there, you sent me: ' . $context->req->body,
+        'text' => 'Hi there, you sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
 
