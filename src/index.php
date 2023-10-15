@@ -58,4 +58,5 @@ return function ($context) {
     }
     
     curl_close($ch);
+    return $context->res->empty()
 };
