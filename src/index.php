@@ -24,14 +24,6 @@ return function ($context) {
     $headers = $context->req->headers;
     $token = (isset($headers["authorization"]) ? explode(" ", $headers["authorization"])[1] : "");
 
-    $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], array('HS256'));
-
-    if (hash('sha256',$body) !== $decoded["payload_hash"]) {
-        return $context->res->json([
-            'ok'=> FALSE,
-            'error'=> 'Payload Mismatch'
-        ]);
-    }
 
     try {
         throw_if_missing($body, ["from","text"]);
