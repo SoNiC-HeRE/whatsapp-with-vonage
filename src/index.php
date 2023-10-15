@@ -23,13 +23,11 @@ return function ($context) {
 
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $token = explode(" ", $authorizationHeader)[1] ?? "";
+    $jwtParts = explode(".", $token);
+    $payload = base64_decode($jwtParts[1]);
+    $decodedPayload = json_decode($payload, true);
 
-    try {
-        $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], array('HS256'));
-        $context->log($decoded);
-    } catch (Exception $e) {
-        $context->error('Caught exception: ' . $e);
-    }
+    $context->log($decodedPayload);
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
