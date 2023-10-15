@@ -17,34 +17,4 @@ return function ($context) {
         return $context->res->send(get_static_file('index.html'), 200, [
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
-    }
-    $headers = [
-        'Content-Type' => 'application/json',
-        'Accept' => 'application/json'
-    ];
-    
-    $data = [
-        'from' => $YOUR_VONAGE_WHATSAPP_NUMBER,
-        'to' => $RECIPIENT_NUMBER,
-        'message_type' => 'text',
-        'text' => 'check',
-        'channel' => 'whatsapp'
-    ];
-    
-    $url = 'https://messages-sandbox.nexmo.com/v1/messages';
-    
-    $client = new Client();
-    
-    try {
-        $response = $client->post($url, [
-            'headers' => $headers,
-            'auth' => [$API_KEY, $API_SECRET],
-            'json' => $data
-        ]);
-    
-        // Print the response
-        echo $response->getBody();
-    } catch (\Exception $e) {
-        echo 'Caught exception: ', $e->getMessage(), "\n";
-    }
 };
