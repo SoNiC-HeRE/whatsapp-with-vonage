@@ -3,6 +3,10 @@
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/utils.php');
 
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 return function ($context) {
     throw_if_missing($_ENV, [
         'VONAGE_API_KEY',
