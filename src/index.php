@@ -27,7 +27,12 @@ return function ($context) {
         $context->error('JWT validation error: ' . $e->getMessage());
     } */
 
-    throw_if_missing($context->req->body, ['from','text']);
+    try {
+        throw_if_missing($context->req->body, ['from','text'])
+    };
+    catch (Exception $e){
+        $context->log("Checking token: " . $e->getMessage);
+    }
 
     if(isset($context->req->body['text'])){
         $headers = [
