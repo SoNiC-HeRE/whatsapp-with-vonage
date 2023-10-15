@@ -19,8 +19,9 @@ return function ($context) {
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
     }
-
-    $context->log($context->req->headers);
+    $token = explode(" ", ($context->req->headers["authorization"] ?? ""))[1] ?? '';
+    $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256');
+    $context->log(json_encode($decoded));  
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
