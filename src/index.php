@@ -20,9 +20,9 @@ return function ($context) {
     }
     $data = [
         'from' => $_ENV['VONAGE_WHATSAPP_NUMBER'],
-        'to' => $body['from'],
+        'to' => $context->req->body['from'],
         'message_type' => 'text',
-        'text' => 'Hi there! You sent me: ' . $body['text'],
+        'text' => 'Hi there! You sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
 
