@@ -24,9 +24,9 @@ return function ($context) {
     try {
     throw_if_missing($context->req->body, ['from','text']);
     } catch (\Exception $e) {
-        $context->error("Text or From field missing: $e->getMessage()");
+        $context->error("Text or From field missing: $e");
     }
-    
+
     $headers = [
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
