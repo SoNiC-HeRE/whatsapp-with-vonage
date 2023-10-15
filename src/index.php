@@ -44,7 +44,7 @@ return function ($context) {
         } else {
             return $context->error("Error: Unexpected status code - " . $response->getStatusCode(), 500);
         }
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return $context->error('Caught exception: ' . $e->getMessage() . "\n");
     }
 
