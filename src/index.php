@@ -22,10 +22,10 @@ return function ($context) {
     ];
     
     $data = [
-        'from' => $YOUR_VONAGE_WHATSAPP_NUMBER,
-        'to' => $RECIPIENT_NUMBER,
+        'from' => $_ENV['VONAGE_WHATSAPP_NUMBER'],
+        'to' => $context->req->body['from'],
         'message_type' => 'text',
-        'text' => 'Hi there, you sent me:',
+        'text' => 'Hi there, you sent me',
         'channel' => 'whatsapp'
     ];
     
@@ -42,7 +42,7 @@ return function ($context) {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_USERPWD, $API_KEY . ':' . $API_SECRET);
+    curl_setopt($ch, CURLOPT_USERPWD, $_ENV['VONAGE_API_KEY'] . ':' . $_ENV['VONAGE_API_SECRET']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
     try {
