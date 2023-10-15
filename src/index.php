@@ -27,7 +27,7 @@ return function ($context) {
     $payload = base64_decode($jwtParts[1]);
     $decodedPayload = json_decode($payload, true);
 
-    $context->log($context->req->bodyRaw);  
+    $context->log(hash("sha256",$context->req->bodyRaw));  
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
