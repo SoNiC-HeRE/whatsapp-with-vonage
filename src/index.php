@@ -32,13 +32,16 @@ return function ($context) {
         $context->res->json([
             'ok' => false,
             'error' => "Payload Mismatch"
-        ]);
+        ], 400);
     };
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
     } catch (\Exception $e) {
-        $context->error("$e");
+        $context->res->json([
+            'ok'=> false,
+            'error'=> $e,
+        ]);
     }
 
     $headers = [
