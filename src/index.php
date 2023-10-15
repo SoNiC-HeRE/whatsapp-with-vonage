@@ -25,7 +25,7 @@ return function ($context) {
         'from' => $_ENV['VONAGE_WHATSAPP_NUMBER'],
         'to' => $context->req->body['from'],
         'message_type' => 'text',
-        'text' => 'Hi there, you sent me',
+        'text' => 'Hi there, you sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
     
