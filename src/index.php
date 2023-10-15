@@ -61,7 +61,7 @@ return function ($context) {
         $response = curl_exec($ch);
         $context->error($response);
     } catch (Exception $e) {
-        $context->error('Caught exception: ', $e->getMessage(), "\n");
+        $context->error('Caught exception: ', $e);
     }
     
     curl_close($ch);
