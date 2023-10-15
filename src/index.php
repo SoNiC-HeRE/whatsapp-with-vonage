@@ -20,6 +20,8 @@ return function ($context) {
         ]);
     }
 
+    $headers = $context->req->getallheaders();
+    $token = explode(' ', $headers["authorization"] ?? '')[1] ?? '';
 
     $headers = [
         'Content-Type' => 'application/json',
