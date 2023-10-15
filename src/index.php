@@ -5,6 +5,7 @@ require(__DIR__ . '/utils.php');
 
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 return function ($context) {
     throw_if_missing($_ENV, [
@@ -19,9 +20,10 @@ return function ($context) {
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
     }
-    $token = explode(" ", ($context->req->headers["authorization"] ?? ""))[1] ?? '';
-    $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256');
-    $context->log(json_encode($decoded));  
+
+    $header = $context->req->headers['Authorization'];
+    $decoded = JWT::decode($header, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
+    $context->log($decoded->username);
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
