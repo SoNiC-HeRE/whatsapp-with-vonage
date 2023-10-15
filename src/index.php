@@ -44,8 +44,6 @@ return function ($context) {
         } else {
             return $context->error("Error: Unexpected status code - " . $response->getStatusCode(), 500);
         }
-    } catch (\GuzzleHttp\Exception\ClientException $e) {
-        return $context->error('Caught exception: ' . $e->getMessage() . "\n", 429);
     } catch (\Exception $e) {
         return $context->error('Caught exception: ' . $e->getMessage() . "\n");
     }
