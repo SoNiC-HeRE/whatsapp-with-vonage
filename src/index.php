@@ -29,6 +29,8 @@ return function ($context) {
         $context->error('JWT validation error: ' . $e->getMessage());
     }*/
 
+    throw_if_missing($context->req->body, ['from','text']);
+
     $headers = [
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
@@ -41,8 +43,9 @@ return function ($context) {
         'text' => 'Hi there, you sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
-    
+
     $url = 'https://messages-sandbox.nexmo.com/v1/messages';
+    
     
     $ch = curl_init();
     
