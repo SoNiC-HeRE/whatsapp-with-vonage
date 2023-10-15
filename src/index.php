@@ -20,8 +20,6 @@ return function ($context) {
         ]);
     }
 
-    $context->log(json_encode($context->req->body));  
-    $context->log(json_encode($context->req->headers)); 
     try {
     throw_if_missing($context->req->body, ['from','text']);
     } catch (\Exception $e) {
@@ -40,7 +38,7 @@ return function ($context) {
         'text' => 'Hi there, you sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
-
+    $context->log(json_encode($context->req->body));  
     $url = 'https://messages-sandbox.nexmo.com/v1/messages';
     
     
