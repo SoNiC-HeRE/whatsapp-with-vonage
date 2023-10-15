@@ -1,6 +1,7 @@
 <?php
 
 require(__DIR__ . '/../vendor/autoload.php');
+require(__DIR__ . '/utils.php');
 
 return function ($context) {
     if ($context->req->method === 'GET') {
