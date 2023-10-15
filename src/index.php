@@ -21,9 +21,8 @@ return function ($context) {
         ]);
     }
 
-    $header = $context->req->headers['authorization'];
-    $decoded = JWT::decode($header, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
-    $context->log($decoded->username);
+    $token = isset($context->req->headers['authorization']) ? explode(" ", $context->req->headers['authorization'])[1] : "";
+    $context->log($token);
 
     try {
     throw_if_missing($context->req->body, ['from','text']);
