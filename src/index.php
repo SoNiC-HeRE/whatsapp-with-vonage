@@ -21,7 +21,7 @@ return function ($context) {
         ]);
     }
 
-    $header = $context->req->headers['Authorization'];
+    $header = $context->req->headers['authorization'];
     $context->log($header);
 
     try {
