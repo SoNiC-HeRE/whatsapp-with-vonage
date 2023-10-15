@@ -4,7 +4,7 @@ require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/utils.php');
 
 
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 return function ($context) {
     throw_if_missing($_ENV, [
@@ -19,7 +19,14 @@ return function ($context) {
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
     }
-    $context->log(json_encode($context->req->headers)); 
+    $token = explode(" ", ($context->req->headers["authorization"] ?? ""))[1] ?? '';
+
+    try {
+        $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], array('HS256'));
+    } catch (\Exception $e) {
+        $context->error('Caught exception: ',  $e);
+    }
+
     try {
     throw_if_missing($context->req->body, ['from','text']);
     } catch (\Exception $e) {
