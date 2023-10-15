@@ -3,6 +3,9 @@
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/utils.php');
 
+
+use \Firebase\JWT\JWT;
+
 return function ($context) {
     throw_if_missing($_ENV, [
         'VONAGE_API_KEY',
@@ -16,6 +19,29 @@ return function ($context) {
             'Content-Type' => 'text/html; charset=utf-8',
         ]);
     }
+
+    $body = $context->req->body;
+    $headers = $context->req->headers;
+    $token = (isset($headers["authorization"]) ? explode(" ", $headers["authorization"])[1] : "");
+
+    $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], array('HS256'));
+
+    if (hash('sha256',$body) !== $decoded["payload_hash"]) {
+        return $context->res->json([
+            'ok'=> FALSE,
+            'error'=> 'Payload Mismatch'
+        ]);
+    }
+
+    try {
+        throw_if_missing($body, ["from","text"]);
+    } catch (Exception $e) {
+        return $context->res->json([
+            'ok'=> FALSE,
+            'error'=> $e
+        ], 400)
+    }
+
     $headers = [
         'Content-Type' => 'application/json',
         'Accept' => 'application/json'
@@ -50,8 +76,6 @@ return function ($context) {
         if ($response === false) {
             throw new Exception(curl_error($ch), curl_errno($ch));
         }
-    
-        // Print the response
         $context->log($response);
     } catch (Exception $e) {
         $context->error('Caught exception: ', $e->getMessage(), "\n");
