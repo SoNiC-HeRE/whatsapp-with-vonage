@@ -20,7 +20,9 @@ return function ($context) {
         ]);
     }
 
-    $context->log(json_encode($context->req->body));
+    $context->log($context->req->bodyRaw);              // Raw request body, contains request data
+    $context->log(json_encode($context->req->body));    // Object from parsed JSON request body, otherwise string
+    $context->log(json_encode($context->req->headers)); 
     try {
     throw_if_missing($context->req->body, ['from','text']);
     } catch (\Exception $e) {
