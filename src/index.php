@@ -24,8 +24,8 @@ return function ($context) {
         throw_if_missing($context->req->body, ["from","text"]);
     } catch (Exception $e) {
         return $context->res->json([
-            'ok'=> FALSE,
-            'error'=> $e
+            'ok'=> false,
+            'error'=> $e,
         ], 400)
     }
 
