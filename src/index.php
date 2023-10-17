@@ -18,12 +18,12 @@ return function ($context) {
         ]);
     }
 
-    /*$authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
+    $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtParts = explode(" ", $authorizationHeader)[1] ?? "";
     $jwtToken = explode(".", $jwtParts);
     $context->log($context->req->headers);
     $payload = base64_decode($jwtToken[1]);
-    $decodedPayload = json_decode($payload, true);*/
+    $decodedPayload = json_decode($payload, true);
 
     $jwt = $context->req->headers;
     $jwt = str_replace('Bearer', '', $jwt['authorization'][0], $_ENV['VONAGE_API_SIGNATURE_SECRET'], ['HS256']);
