@@ -23,7 +23,7 @@ return function ($context) {
     $jwtToken = explode(".", $jwtParts);
     $payload = base64_decode($jwtToken[1]);
     $decodedPayload = json_decode($payload, true);
-    $context->log($payload);
+    $context->log($jwtParts);
 
     if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
         $context->res->json([
