@@ -31,7 +31,7 @@ return function ($context) {
     }
     
 
-    if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
+    if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
         $context->res->json([
             'ok' => false,
             'error' => "Payload Mismatch"
