@@ -20,8 +20,8 @@ return function ($context) {
 
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $token = explode(" ", $authorizationHeader)[1] ?? "";
-    $context->log($token);
     $jwtParts = explode(".", $token);
+    $context->log($jwtParts);
     $payload = base64_decode($jwtParts[1]);
     $decodedPayload = json_decode($payload, true);
     
