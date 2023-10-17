@@ -23,6 +23,7 @@ return function ($context) {
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtParts = explode(" ", $authorizationHeader)[1] ?? "";
     $decoded = JWT::decode($jwtParts, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
+    $context->log($decoded);
 
     if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
         $context->res->json([
