@@ -51,7 +51,7 @@ return function ($context) {
         'from' => $_ENV['VONAGE_WHATSAPP_NUMBER'],
         'to' => $context->req->body['from'],
         'message_type' => 'text',
-        'text' => 'Hi there, you sent me: ' . (array) $context->req->body['text'],
+        'text' => 'Hi there, you sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
     $url = 'https://messages-sandbox.nexmo.com/v1/messages';
