@@ -21,19 +21,12 @@ return function ($context) {
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtParts = explode(" ", $authorizationHeader)[1] ?? "";
     $jwtToken = explode(".", $jwtParts);
-
-    try {
-        $decoded = JWT::decode($jwtToken[1], $_ENV['VONAGE_API_SIGNATURE_SECRET'], ['HS256']);
-        $context->log($decoded);
-    } catch (\Exception $e) {
-        $context->res->json([
-            'ok' => false,
-            'error' => 'Invalid Token',
-        ], 401);
-    }
+    $context->log($jwtToken[1]);
+    $payload = base64_decode($jwtToken[1]);
+    $decodedPayload = json_decode($payload, true);
     
 
-    if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
+    if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
         $context->res->json([
             'ok' => false,
             'error' => "Payload Mismatch"
