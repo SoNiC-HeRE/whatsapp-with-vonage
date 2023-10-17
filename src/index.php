@@ -3,8 +3,8 @@
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/utils.php');
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 
 return function ($context) {
     throw_if_missing($_ENV, [
@@ -27,7 +27,7 @@ return function ($context) {
     $decodedPayload = json_decode($payload, true);
 
     $key = base64_decode($_ENV['VONAGE_API_SIGNATURE_SECRET']);
-    $context->log($key);
+    $decoded = JWT::decode($jwtParts, new Key($key, 'HS256'));
 
     if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
         $context->res->json([
