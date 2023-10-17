@@ -2,6 +2,7 @@
 
 require(__DIR__ . '/../vendor/autoload.php');
 require(__DIR__ . '/utils.php');
+use Firebase\JWT\JWT;
 
 return function ($context) {
     throw_if_missing($_ENV, [
@@ -19,9 +20,15 @@ return function ($context) {
 
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $token = explode(" ", $authorizationHeader)[1] ?? "";
-    $jwtParts = explode(".", $token);
-    $payload = base64_decode($jwtParts[1]);
-    $decodedPayload = json_decode($payload, true);
+
+    try {
+        $decoded = JWT::decode($token, $_ENV['VONAGE_API_SIGNATURE_SECRET'], array('HS256'));
+    } catch (\Exception $e) {
+        $context->res->json([
+            'ok' => false,
+            'error' => 'Invalid Token',
+        ], 401);
+    }
     
 
     if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
@@ -74,10 +81,12 @@ return function ($context) {
     } catch (Exception $e) {
         $context->error('Caught exception: ', $e);
     }
+
     if($response === true){
         return $context->res->json(['ok' => true], 200);
     } else {
         return $context->res->json(['ok' => false], 400);
     }
+
     curl_close($ch);
 };
