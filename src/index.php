@@ -22,9 +22,6 @@ return function ($context) {
 
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtParts = explode(" ", $authorizationHeader)[1] ?? "";
-    $jwtToken = explode(".", $jwtParts);
-    $payload = base64_decode($jwtToken[1]);
-    $decodedPayload = json_decode($payload, true);
 
     try { 
         $decoded = JWT::decode($jwtParts, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
@@ -32,7 +29,7 @@ return function ($context) {
         $context->error($e);
     }
 
-    if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
+    if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
         $context->res->json([
             'ok' => false,
             'error' => "Payload Mismatch"
