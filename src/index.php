@@ -25,12 +25,6 @@ return function ($context) {
     $payload = base64_decode($jwtToken[1]);
     $decodedPayload = json_decode($payload, true);
 
-    $jwt = $context->req->headers;
-    $jwt = str_replace('Bearer', '', $jwt['authorization'][0], $_ENV['VONAGE_API_SIGNATURE_SECRET'], ['HS256']);
-
-    $context->log($jwt);
-    
-
     if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
         $context->res->json([
             'ok' => false,
