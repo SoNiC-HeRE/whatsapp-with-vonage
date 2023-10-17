@@ -74,6 +74,10 @@ return function ($context) {
     } catch (Exception $e) {
         $context->error('Caught exception: ', $e);
     }
-    
+    if($response === true){
+        return $context->res->json(['ok' => true], 200);
+    } else {
+        return $context->res->json(['ok' => false], 400);
+    }
     curl_close($ch);
 };
