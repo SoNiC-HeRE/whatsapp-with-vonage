@@ -15,10 +15,10 @@ return function ($context) {
     ]);
 
     if ($context->req->method === 'GET') {
-        return $context->res->send(get_static_file('index.html'), 200, [
-            'Content-Type' => 'text/html; charset=utf-8',
-        ]);
-    }
+            return $context->res->send(get_static_file('index.html'), 200, [
+                'Content-Type' => 'text/html; charset=utf-8',
+            ]);
+        }
 
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtToken = explode(" ", $authorizationHeader)[1] ?? "";
@@ -26,8 +26,8 @@ return function ($context) {
     $decoded = JWT::decode($jwtToken, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
     $decoded_array = (array) $decoded;
 
-    if(hash("sha256",$context->req->bodyRaw) !== $decoded_array["payload_hash"]){
-        $context->res->json([
+    if (hash("sha256",$context->req->bodyRaw) !== $decoded_array["payload_hash"]) {
+        $context->res->json ([
             'ok' => false,
             'error' => "Payload Mismatch"
         ], 401);
@@ -40,7 +40,7 @@ return function ($context) {
                 'ok'=> false,
                 'error'=> $e,
             ], 400);
-    }
+        }   
 
     $headers = [
         'Content-Type' => 'application/json',
@@ -54,6 +54,7 @@ return function ($context) {
         'text' => 'Hi there, you sent me: ' . $context->req->body['text'],
         'channel' => 'whatsapp'
     ];
+    
     $url = 'https://messages-sandbox.nexmo.com/v1/messages';
     
     
