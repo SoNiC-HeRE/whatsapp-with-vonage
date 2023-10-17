@@ -22,13 +22,8 @@ return function ($context) {
 
     $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtParts = explode(" ", $authorizationHeader)[1] ?? "";
-
-    try { 
-        $decoded = JWT::decode($jwtParts, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
-    } catch (\Exception $e) {
-        $context->error($e);
-    }
-
+    $jwtToken = explode(".", $jwtParts);
+    $decoded = JWT::decode($jwtToken, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
     if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
         $context->res->json([
             'ok' => false,
