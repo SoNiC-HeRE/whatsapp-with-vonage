@@ -25,12 +25,12 @@ return function ($context) {
 
     $decoded = JWT::decode($jwtToken, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
 
-    if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
+    /*if(hash("sha256",$context->req->bodyRaw) !== $decoded["payload_hash"]){
         $context->res->json([
             'ok' => false,
             'error' => "Payload Mismatch"
         ], 401);
-    };
+    };*/
 
     try {
         throw_if_missing($context->req->body, ['from','text']);
