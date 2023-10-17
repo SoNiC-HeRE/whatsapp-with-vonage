@@ -28,16 +28,16 @@ return function ($context) {
         $context->res->json([
             'ok' => false,
             'error' => "Payload Mismatch"
-        ], 400);
+        ], 401);
     };
 
     try {
-    throw_if_missing($context->req->body, ['from','text']);
-    } catch (\Exception $e) {
-        $context->res->json([
-            'ok'=> false,
-            'error'=> $e,
-        ]);
+        throw_if_missing($context->req->body, ['from','text']);
+        } catch (\Exception $e) {
+            $context->res->json([
+                'ok'=> false,
+                'error'=> $e,
+            ], 400);
     }
 
     $headers = [
@@ -71,11 +71,9 @@ return function ($context) {
     
     try {
         $response = curl_exec($ch);
-        $context->error($response);
     } catch (Exception $e) {
         $context->error('Caught exception: ', $e);
     }
     
     curl_close($ch);
-    return $context->res->send('Invalid request');
 };
