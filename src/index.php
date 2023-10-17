@@ -27,8 +27,7 @@ return function ($context) {
     $decodedPayload = json_decode($payload, true);
 
     $key = base64_decode($_ENV['VONAGE_API_SIGNATURE_SECRET']);
-    $decoded = JWT::decode($jwtParts, new Key($key, 'HS256'));
-    $context->log($decoded);
+    $context->log($key);
 
     if(hash("sha256",$context->req->bodyRaw) !== $decodedPayload["payload_hash"]){
         $context->res->json([
