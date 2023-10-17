@@ -20,7 +20,7 @@ return function ($context) {
         ]);
     }
 
-    $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
+   /* $authorizationHeader = isset($context->req->headers["authorization"]) ? $context->req->headers["authorization"] : "";
     $jwtToken = explode(" ", $authorizationHeader)[1] ?? "";
     $decoded = JWT::decode($jwtToken, new Key($_ENV['VONAGE_API_SIGNATURE_SECRET'], 'HS256'));
 
@@ -29,7 +29,7 @@ return function ($context) {
             'ok' => false,
             'error' => "Payload Mismatch"
         ], 401);
-    };
+    };*/
 
     try {
         throw_if_missing($context->req->body, ['from','text']);
