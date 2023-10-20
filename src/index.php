@@ -46,7 +46,7 @@ return function ($context) {
 
     try {
         throw_if_missing($context->req->body, ["from", "text"]);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         $context->res->json(
             [
                 "ok" => false,
@@ -94,13 +94,7 @@ return function ($context) {
     }
 
     if ($response_array["message_uuid"] === null) {
-        return $context->res->json(
-            [
-                "ok" => false,
-                "error" => $response,
-            ],
-            400
-        );
+        $context->error($response);
     }
 
     curl_close($ch);
