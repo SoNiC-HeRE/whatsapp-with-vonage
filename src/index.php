@@ -88,7 +88,7 @@ return function ($context) {
 
     try {
         curl_exec($ch);
-        $context->res->json(["ok" => true]);
+        return $context->res->json(["ok" => true]);
     } catch (Exception $e) {
         $context->error("Caught exception: ", $e);
     }
