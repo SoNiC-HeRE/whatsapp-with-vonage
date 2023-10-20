@@ -95,7 +95,7 @@ return function ($context) {
     if ($response_array["message_uuid"] === null) {
         $context->res->json([
             "ok" => false,
-            "error" => $response
+            "error" => $response,
         ]);
     }
     curl_close($ch);
