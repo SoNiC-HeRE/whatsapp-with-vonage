@@ -88,12 +88,12 @@ return function ($context) {
 
     try {
         $response = curl_exec($ch);
-        $response_array = (array) $response;
+        $response_array = json_decode($response, true);
     } catch (Exception $e) {
         $context->error("Caught exception: ", $e);
     }
 
-    if ($response_array["message_uuid"] === null) {
+    if ($response_array["detail"] === 'Invalid Token') {
         $context->error($response);
     }
 
