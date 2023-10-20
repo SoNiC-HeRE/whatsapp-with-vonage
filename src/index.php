@@ -93,10 +93,7 @@ return function ($context) {
         $context->error("Caught exception: ", $e);
     }
     if ($response_array["message_uuid"] === null) {
-        return $context->res->json([
-            "ok" => false,
-            "error" => $response,
-        ]);
+        return $context->error($response);
     }
     curl_close($ch);
     return $context->res->json([
