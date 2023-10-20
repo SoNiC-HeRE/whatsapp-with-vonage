@@ -87,10 +87,15 @@ return function ($context) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     try {
-        curl_exec($ch);
+        $response = curl_exec($ch);
+        if($response === false){
+            $context->res->json([
+                "ok" => false,
+                "error" => $response
+            ], 400);
+        }
     } catch (Exception $e) {
         $context->error("Caught exception: ", $e);
-    }
-
+    } 
     curl_close($ch);
 };
