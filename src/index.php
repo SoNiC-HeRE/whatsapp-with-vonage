@@ -93,7 +93,7 @@ return function ($context) {
         $context->error("Caught exception: ", $e);
     }
 
-    if ($response_array["detail"] === 'Invalid Token') {
+    if ($response_array["detail"] === null) {
         $context->error($response);
     }
 
