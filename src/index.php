@@ -94,15 +94,21 @@ return function ($context) {
     }
 
     if ($response_array["message_uuid"] === null) {
-        return $context->res->json([
-            "ok" => false,
-            "error" => $response,
-        ]);
+        return $context->res->json(
+            [
+                "ok" => false,
+                "error" => $response,
+            ],
+            400
+        );
     }
 
     curl_close($ch);
-    
-    return $context->res->json([
-        "ok" => true,
-    ]);
+
+    return $context->res->json(
+        [
+            "ok" => true,
+        ],
+        200
+    );
 };
